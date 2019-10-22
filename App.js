@@ -8,17 +8,10 @@ import * as SMS from 'expo-sms';
 
 
 
-export default function Image () {
-  // state = {
-  //   image: null,
-  // };
-  
-  const [permissions, setPermissions] = useState('');
-
-  const getPermissions = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    setPermissions(status); 
-  }
+export default class ImagePickerExample extends React.Component {
+  state = {
+    image: null,
+  };
 
   render() {
     let { image } = this.state;
@@ -33,19 +26,22 @@ export default function Image () {
         {image &&
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         
+        
         <Button 
           style={styles.buttonContainer}
-          onPress={this._onPress} 
+          onPress={this.onPress} 
           title="Touch my button" 
         />
       </View>
+       
+       
       
     );
   }
 
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
+  // componentDidMount() {
+  //   this.getPermissionAsync();
+  // }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -70,7 +66,7 @@ export default function Image () {
     }
   };
   
-  _onPress = async () => {
+  onPress = async () => {
     const status = await SMS.sendSMSAsync('8675309', 'you up?');
 
     console.log(status);
